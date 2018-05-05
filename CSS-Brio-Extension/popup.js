@@ -16,14 +16,6 @@ function trackButtonClick(e) {
   _gaq.push(['_trackEvent', e.target.id, 'clicked']);
 }
 
-
-document.addEventListener('DOMContentLoaded', function () {
-  var buttons = document.querySelectorAll('button');
-  for (var i = 0; i < buttons.length; i++) {
-    buttons[i].addEventListener('click', trackButtonClick);
-  }
-});
-
 function popup() {
 
 		if(document.querySelector("#brioName").value ===""){
@@ -130,6 +122,11 @@ function copy(){
 }
 
 document.addEventListener("DOMContentLoaded", function() {
+	
+	  var buttons = document.querySelectorAll('button');
+		for (var i = 0; i < buttons.length; i++) {
+		buttons[i].addEventListener('click', trackButtonClick);
+		}
 	
 	  document.getElementById("brioPlay").addEventListener("click", popup);
 	  document.getElementById("brioReset").addEventListener("click", reseter);

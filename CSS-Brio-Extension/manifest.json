@@ -2,7 +2,7 @@
 "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
   "manifest_version": 2,
   "name": "CSS Brio",
-  "version": "1.1",
+  "version": "1.2",
   "description": "CSS Brio is a fast CSS Animation viewer and CSS code provider for Designers.",
   "short_name": "Brio",
   "content_scripts": [
