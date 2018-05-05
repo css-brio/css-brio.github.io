@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="popup.js"></script>
+
+
+<style>
+
+	body{
+		margin:0;
+		padding:0;
+		background-color: #ffffff;
+		font-family: Arial, Helvetica, sans-serif;
+		
+		-webkit-touch-callout:none;
+		-webkit-text-size-adjust: none;
+		-webkit-font-smoothing: antialiased;
+	}
+	
+	::-moz-selection { color:#fff; background: #B137DF; }
+	::selection { color:#fff; background: #B137DF; }
+
+	#container{
+		width:240px;
+		margin:0 auto;
+		display: block;	
+	}
+	
+	.header-bar{
+		color:#B137DF;
+		display: block;
+		font-size: 10px;
+		text-align: left;
+		padding: 8px 10px;
+		position: relative;
+		background-color: #ffffff;
+	}
+	
+	.header-bar strong{
+		font-size: 15px;
+	}
+	
+	.header-bar a{
+		top:9px;
+		right:10px;
+		width:15px;
+		height: 15px;
+		color:#c0c0c0;
+		outline: none;
+		display: block;
+		font-size: 12px;
+		font-weight:bold;
+		line-height: 17px;
+		position: absolute;
+		text-align: center;
+		border-radius: 50%;
+		text-decoration: none;
+		background-color: #eeeeee;
+		-webkit-transition:0.2s;
+	}
+	
+	.header-bar a:hover{
+		color:#ffffff;
+		background-color: #B137DF;
+	}
+	
+	.content{
+		padding:10px;
+		display: block;
+		background-color: #f6f6f6;
+	}
+	
+	input[type="text"]{
+		width:170px;
+		float:left;
+		padding:8px 10px;
+		display:inline-block;
+		border-color:transparent;
+		background-color: #222222;
+	}
+	
+	input[type="text"]::-webkit-input-placeholder {
+		font-size: 10px;
+	}
+	
+	#brioReset{
+		width:26px;
+		border:none;
+		height: 32px;
+		color:#ffffff;
+		outline: none;
+		cursor: pointer;
+		margin-top: 10px;
+		line-height: 30px;
+		text-align: center;
+		display:inline-block;
+		text-decoration: none;	
+		vertical-align: middle;
+		background-color: #F2F2F2;
+		background-image: url(refresh.svg);
+	}
+	
+	select{
+		width:220px;
+		display: block;
+		cursor: pointer;
+		padding:8px 10px;
+		border-radius: 0;
+		position: relative;
+		border-color:transparent;
+		background-size: 26px 32px;
+		background-repeat: no-repeat;
+		background-position: 193px -1px;
+		background-image: url(dropdown.svg);
+		
+	}
+	
+	
+	textarea{
+		width:200px;
+		height:200px;
+		padding:10px;
+		resize: none;
+		cursor:-webkit-grab;
+		border-color:transparent;
+	}
+	
+	input[type="text"],
+	select,
+	textarea{
+		outline: none;
+		margin:10px 0 0 0;
+		background-color: #ffffff;
+	}
+
+	.control-bar{
+		display: block;
+		text-align: center;
+	}
+	
+	.control-bar button{
+		float:left;
+		width:120px;
+	    border:none;
+		height: 40px;
+		color:#ffffff;
+		outline: none;
+		cursor: pointer;
+		text-align: center;
+		vertical-align: top;
+		display: inline-block;
+		text-decoration: none;
+		-webkit-transition:0.2s;
+		background-color: #ffffff;
+	}
+	
+	.control-bar button:hover{
+		background-color: #f9f9f9;
+	}
+	
+	.play-icon{
+		background-size: 40px;
+		background-repeat: no-repeat;
+		background-image: url(play.svg);
+		background-position: center center;
+	}
+	
+	.grab-icon{
+		background-size: 40px;
+		background-repeat: no-repeat;
+		background-image: url(grab.svg);
+		background-position: center center;
+	}
+	
+	.no-appearance{
+		-webkit-appearance: none;
+		-moz-appearance:    none;
+		appearance:         none;
+	}
+	
+	[data-hint] {
+		position: relative;
+		display: inline-block
+	}
+	
+	[data-hint]:after, [data-hint]:before {
+		position: absolute;
+		-webkit-transform: translate3d(0, 0, 0);
+		-moz-transform: translate3d(0, 0, 0);
+		transform: translate3d(0, 0, 0);
+		visibility: hidden;
+		opacity: 0;
+		z-index: 1020;
+		pointer-events: none;
+		-webkit-transition: .3s ease;
+		-moz-transition: .3s ease;
+		transition: .3s ease;
+		-webkit-transition-delay: 0ms;
+		-moz-transition-delay: 0ms;
+		transition-delay: 0ms
+	}
+	
+	[data-hint]:hover:after, [data-hint]:hover:before {
+		visibility: visible;
+		opacity: 1;
+		-webkit-transition-delay: 100ms;
+		-moz-transition-delay: 100ms;
+		transition-delay: 100ms
+	}
+	
+	[data-hint]:before {
+		content: '';
+		position: absolute;
+		background: 0 0;
+		border: 6px solid transparent;
+		z-index: 1021
+	}
+	
+	[data-hint]:after {
+		content: attr(data-hint);
+		background: #B137DF;
+		color: #fff;
+		padding: 8px 10px;
+		font-size: 12px;
+		font-family:  Arial, Helvetica, sans-serif;
+		line-height: 12px;
+		white-space: nowrap;
+		box-shadow: 4px 4px 8px rgba(0,0,0,.3)
+	}
+	
+	[data-hint='']:after, [data-hint='']:before {
+		display: none!important
+	}
+	
+	.hint--top:before {
+	 border-top-color: #B137DF;
+	}
+	
+	.hint--top:after, .hint--top:before {
+		bottom: 100%;
+		left: 50%
+	}
+	
+	.hint--top:before {
+		margin-bottom: -11px;
+		left: calc(50% - 6px)
+	}
+	
+	.hint--top:after {
+		-webkit-transform: translateX(-50%);
+		-moz-transform: translateX(-50%);
+		transform: translateX(-50%)
+	}
+	
+	.hint--top:focus:before, .hint--top:hover:before {
+		-webkit-transform: translateY(-8px);
+		-moz-transform: translateY(-8px);
+		transform: translateY(-8px)
+	}
+	
+	.hint--top:focus:after, .hint--top:hover:after {
+		-webkit-transform: translateX(-50%) translateY(-8px);
+		-moz-transform: translateX(-50%) translateY(-8px);
+		transform: translateX(-50%) translateY(-8px)
+	}
+	
+	.hint--left:before {
+		border-left-color: #B137DF;
+	}
+	
+	.hint--left:before {
+		margin-right: -12px;
+		margin-bottom: -6px; 
+	}
+	.hint--left:after {
+		margin-bottom: -14px; 
+	}
+	.hint--left:before, 
+	.hint--left:after {
+	right: 100%;
+	bottom: 50%; 
+	}
+	.hint--left:hover:after, 
+	.hint--left:hover:before, 
+	.hint--left:focus:after, 
+	.hint--left:focus:before {
+	-webkit-transform: translateX(-8px);
+	-moz-transform: translateX(-8px);
+	transform: translateX(-8px); 
+	}
+	
+	
+	
+	#error{
+		color:#fff;
+		padding:10px;
+		display: none;
+		font-size: 11px;
+		background-color: #790000;
+		margin:-10px -10px 0px -10px;
+	}
+	
+	#readMe{
+		padding:0;
+		color:#1e1e1e;
+		display: block;
+		margin:5px 0 0 0;
+	}
+	
+	#readMe strong{
+		color:#B137DF;
+	}
+	
+	#readMe a{
+		color:#B137DF;
+		font-weight: bold;
+	}
+	
+</style>
+
+</head>
+
+<body>
+
+	<div id="container">
+		
+		<div class="header-bar">
+			
+			<strong>CSS Brio</strong>
+			
+			<a href="https://css-brio.github.io" target="_blank" data-hint="Help" class="hint--left">?</a>
+						
+		</div>
+		
+		<div class="content">
+			
+			 <div id="error"></div>
+			
+			 <input type="text" name="brioName" placeholder="Animate name of .(class) or #(id)" id="brioName">
+			  
+			 <button id="brioReset"></button>
+			
+			
+			<select id="brioAnimation" class="no-appearance">
+				
+					<option value="">Select Animation</option>
+					<optgroup label="Attention Seekers">
+					  <option value="bounce">bounce</option>
+					  <option value="flash">flash</option>
+					  <option value="pulse">pulse</option>
+					  <option value="rubberBand">rubberBand</option>
+					  <option value="shake">shake</option>
+					  <option value="swing">swing</option>
+					  <option value="tada">tada</option>
+					  <option value="wobble">wobble</option>
+					  <option value="jello">jello</option>
+					</optgroup>
+					
+					<optgroup label="Bouncing Entrances">
+					  <option value="bounceIn">bounceIn</option>
+					  <option value="bounceInDown">bounceInDown</option>
+					  <option value="bounceInLeft">bounceInLeft</option>
+					  <option value="bounceInRight">bounceInRight</option>
+					  <option value="bounceInUp">bounceInUp</option>
+					</optgroup>
+					
+					<optgroup label="Bouncing Exits">
+					  <option value="bounceOut">bounceOut</option>
+					  <option value="bounceOutDown">bounceOutDown</option>
+					  <option value="bounceOutLeft">bounceOutLeft</option>
+					  <option value="bounceOutRight">bounceOutRight</option>
+					  <option value="bounceOutUp">bounceOutUp</option>
+					</optgroup>
+					
+					<optgroup label="Fading Entrances">
+					  <option value="fadeIn">fadeIn</option>
+					  <option value="fadeInDown">fadeInDown</option>
+					  <option value="fadeInDownBig">fadeInDownBig</option>
+					  <option value="fadeInLeft">fadeInLeft</option>
+					  <option value="fadeInLeftBig">fadeInLeftBig</option>
+					  <option value="fadeInRight">fadeInRight</option>
+					  <option value="fadeInRightBig">fadeInRightBig</option>
+					  <option value="fadeInUp">fadeInUp</option>
+					  <option value="fadeInUpBig">fadeInUpBig</option>
+					</optgroup>
+					
+					<optgroup label="Fading Exits">
+					  <option value="fadeOut">fadeOut</option>
+					  <option value="fadeOutDown">fadeOutDown</option>
+					  <option value="fadeOutDownBig">fadeOutDownBig</option>
+					  <option value="fadeOutLeft">fadeOutLeft</option>
+					  <option value="fadeOutLeftBig">fadeOutLeftBig</option>
+					  <option value="fadeOutRight">fadeOutRight</option>
+					  <option value="fadeOutRightBig">fadeOutRightBig</option>
+					  <option value="fadeOutUp">fadeOutUp</option>
+					  <option value="fadeOutUpBig">fadeOutUpBig</option>
+					</optgroup>
+					
+					<optgroup label="Flippers">
+					  <option value="flip">flip</option>
+					  <option value="flipInX">flipInX</option>
+					  <option value="flipInY">flipInY</option>
+					  <option value="flipOutX">flipOutX</option>
+					  <option value="flipOutY">flipOutY</option>
+					</optgroup>
+					
+					<optgroup label="Lightspeed">
+					  <option value="lightSpeedIn">lightSpeedIn</option>
+					  <option value="lightSpeedOut">lightSpeedOut</option>
+					</optgroup>
+					
+					<optgroup label="Rotating Entrances">
+					  <option value="rotateIn">rotateIn</option>
+					  <option value="rotateInDownLeft">rotateInDownLeft</option>
+					  <option value="rotateInDownRight">rotateInDownRight</option>
+					  <option value="rotateInUpLeft">rotateInUpLeft</option>
+					  <option value="rotateInUpRight">rotateInUpRight</option>
+					</optgroup>
+					
+					<optgroup label="Rotating Exits">
+					  <option value="rotateOut">rotateOut</option>
+					  <option value="rotateOutDownLeft">rotateOutDownLeft</option>
+					  <option value="rotateOutDownRight">rotateOutDownRight</option>
+					  <option value="rotateOutUpLeft">rotateOutUpLeft</option>
+					  <option value="rotateOutUpRight">rotateOutUpRight</option>
+					</optgroup>
+					
+					<optgroup label="Sliding Entrances">
+					  <option value="slideInUp">slideInUp</option>
+					  <option value="slideInDown">slideInDown</option>
+					  <option value="slideInLeft">slideInLeft</option>
+					  <option value="slideInRight">slideInRight</option>
+					
+					</optgroup>
+					<optgroup label="Sliding Exits">
+					  <option value="slideOutUp">slideOutUp</option>
+					  <option value="slideOutDown">slideOutDown</option>
+					  <option value="slideOutLeft">slideOutLeft</option>
+					  <option value="slideOutRight">slideOutRight</option>
+					  
+					</optgroup>
+					
+					<optgroup label="Zoom Entrances">
+					  <option value="zoomIn">zoomIn</option>
+					  <option value="zoomInDown">zoomInDown</option>
+					  <option value="zoomInLeft">zoomInLeft</option>
+					  <option value="zoomInRight">zoomInRight</option>
+					  <option value="zoomInUp">zoomInUp</option>
+					</optgroup>
+					
+					<optgroup label="Zoom Exits">
+					  <option value="zoomOut">zoomOut</option>
+					  <option value="zoomOutDown">zoomOutDown</option>
+					  <option value="zoomOutLeft">zoomOutLeft</option>
+					  <option value="zoomOutRight">zoomOutRight</option>
+					  <option value="zoomOutUp">zoomOutUp</option>
+					</optgroup>
+					
+					<optgroup label="Specials">
+					  <option value="hinge">hinge</option>
+					  <option value="jackInTheBox">jackInTheBox</option>
+					  <option value="rollIn">rollIn</option>
+					  <option value="rollOut">rollOut</option>
+					</optgroup>
+				
+			</select>
+
+			<textarea id="brioCode" readonly>
+#FIRST-TIME USER (",) 
+#PLEASE CLICK HELP "?" ICON. 
+
+
+"Animation CSS code goes here..."</textarea>
+			
+		</div>
+		
+		<div class="control-bar">
+		
+			<button data-hint="Preview" id="brioPlay" class="hint--top play-icon"></button>
+				
+			<button data-hint="Copy CSS" id="brioGrab"  class="copy-btn hint--top grab-icon"></button>	
+		
+		</div>
+		
+	</div>
+	
+</body>
+
+</html>
