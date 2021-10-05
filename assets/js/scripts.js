@@ -138,5 +138,16 @@ $('nav a').click(function(){
 	$('nav.mobile').slideUp(300);
 	
 });
-	
+
+setTimeout(()=>{
+
+	$("#modal").addClass("active");
+
+},3500)
+
+$("#close").click(()=>{
+
+	$("#modal").removeClass("active");
+
+})
 
